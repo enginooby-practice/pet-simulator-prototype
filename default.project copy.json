@@ -5,6 +5,10 @@
   ],
   "tree": {
     "$className": "DataModel",
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "$path": "src/ReplicatedStorage"
+    },
     "ServerScriptService": {
       "$className": "ServerScriptService",
       "Server": {

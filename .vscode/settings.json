@@ -1,5 +1,8 @@
 {
   "Lua.diagnostics.globals": [
     "game"
+  ],
+  "robloxLsp.diagnostics.disable": [
+    "unused-function"
   ]
 }
