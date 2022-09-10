@@ -17,7 +17,9 @@
     },
     "ServerStorage": {
       "$className": "ServerStorage",
-      "$path": "src/ServerStorage"
+      "ServerModules": {
+        "$path": "src/ServerStorage/ServerModules"
+      }
     },
     "StarterPlayer": {
       "$className": "StarterPlayer",
