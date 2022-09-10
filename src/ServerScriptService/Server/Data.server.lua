@@ -1,14 +1,21 @@
 local Players = game:GetService("Players")
+local ServerStorage = game:GetService("ServerStorage")
+local PetModule = require(ServerStorage.ServerModules.PetModule)
 
-local function leaderboardSetup(player)
-	local leaderstats = Instance.new("Folder")
-	leaderstats.Name = "leaderstats"
-	leaderstats.Parent = player
+local function OnPlayerAdded(player)
+    InitGoldStat(player)
 
-	local gold = Instance.new("IntValue")
-	gold.Name = "Gold"
-	gold.Value = 0
-	gold.Parent = leaderstats
+    task.wait(5)
+    PetModule.EquipPet(player, "Fox")
 end
 
-Players.PlayerAdded:Connect(leaderboardSetup)
+function InitGoldStat(player)
+    local leaderstats = Instance.new("Folder", player)
+    leaderstats.Name = "leaderstats"
+
+    local gold = Instance.new("IntValue", leaderstats)
+    gold.Name = "Gold"
+    gold.Value = 0
+end
+
+Players.PlayerAdded:Connect(OnPlayerAdded)
