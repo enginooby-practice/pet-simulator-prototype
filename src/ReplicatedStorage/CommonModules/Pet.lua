@@ -8,6 +8,7 @@ function Pet.new(prefabName: string, name: string)
     local petPrefab: Instance = game.ReplicatedStorage.Pets:FindFirstChild(prefabName)
 
     _.model = petPrefab:Clone()
+    _.model.Name = name
     _.prefabName = prefabName :: string
     _.name = name :: string
     _.level = 1 :: number
@@ -16,7 +17,7 @@ function Pet.new(prefabName: string, name: string)
     return _
 end
 
-function Pet:AttachTo(player: Player)
+function Pet:Equip(player: Player)
     local model = self.model
     model.Parent = workspace.Pets
     model.PrimaryPart.CFrame = player.Character.HumanoidRootPart.CFrame

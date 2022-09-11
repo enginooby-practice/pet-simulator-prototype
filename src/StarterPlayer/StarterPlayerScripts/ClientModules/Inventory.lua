@@ -6,24 +6,26 @@ local Pet = require(game.ReplicatedStorage.CommonModules.Pet)
 Inventory = {}
 Inventory.__index = Inventory
 
-function Inventory.new(slotAmount: number)
+function Inventory.new(slotAmount: number, equipmentSlotAmount: number)
     local _ = {}
     setmetatable(_, Inventory)
 
-    _.player = localPlayer
     _.frame = inventory
     _.slots = {}
+    _.equipmentSlots = {}
+    _.player = localPlayer
 
     for i = 1, slotAmount, 1 do
-        _:CreateSlot()
+        local slot = InventorySlot.new(false)
+        table.insert(_.slots, slot)
+    end
+
+    for i = 1, equipmentSlotAmount, 1 do
+        local slot = InventorySlot.new(true)
+        table.insert(_.equipmentSlots, slot)
     end
 
     return _
-end
-
-function Inventory:CreateSlot()
-    local slot = InventorySlot.new()
-    table.insert(self.slots, slot)
 end
 
 function Inventory:Open()
@@ -58,10 +60,22 @@ function Inventory:Equip(slotIndex: number)
 
     local pet = self.slots[slotIndex].pet :: Pet
 
-    if pet then
-        pet:AttachTo(self.player)
-        self.slots[slotIndex]:RemovePet()
+    if not pet then
+        return
     end
+
+    for _, equipmentSlot in ipairs(self.equipmentSlots) do
+        if equipmentSlot.pet == nil then
+            equipmentSlot:AddPet(pet)
+            pet:Equip(self.player)
+            self.slots[slotIndex]:RemovePet()
+            return
+        end
+    end
+end
+
+function GetActivePets()
+    return (workspace.Pets :: Folder):GetChildren()
 end
 
 return Inventory
