@@ -103,6 +103,7 @@ function Inventory:Unequip(equipmentSlotIndex: number)
 
     self:AddPet(pet)
     self.equipmentSlots[equipmentSlotIndex]:RemovePet()
+    pet:Unequip()
 end
 
 function GetActivePets()

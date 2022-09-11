@@ -13,16 +13,32 @@ function Pet.new(prefabName: string, name: string)
     _.name = name :: string
     _.level = 1 :: number
     _.exp = 0 :: number
+    _.hasAttachmentAdded = false :: boolean
 
     return _
 end
 
 function Pet:Equip(player: Player)
-    local model = self.model
+    local model = self.model :: Instance
     model.Parent = workspace.Pets
     model.PrimaryPart.CFrame = player.Character.HumanoidRootPart.CFrame
     --model.PrimaryPart:SetNetworkOwner(player)
 
+    if self.hasAttachmentAdded then
+        return
+    end
+
+    self.hasAttachmentAdded = true
+    AddAttachment(model, player)
+end
+
+function Pet:Unequip()
+    local model = self.model :: Instance
+    model.Parent = game.ReplicatedStorage
+    -- model.PrimaryPart.CFrame = player.Character.HumanoidRootPart.CFrame
+end
+
+function AddAttachment(model: Instance, player: Player)
     local attachment0 = Instance.new('Attachment', model.PrimaryPart)
     attachment0.Name = 'Attachment0'
 
