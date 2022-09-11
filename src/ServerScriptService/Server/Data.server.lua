@@ -10,8 +10,8 @@ local function OnPlayerAdded(player: Player)
 
     local fox = Pet.new('Fox', 'Foxy')
     local bat = Pet.new('Bat', 'Battie')
-    fox:AttachTo(player)
-    bat:AttachTo(player)
+    -- fox:AttachTo(player)
+    -- bat:AttachTo(player)
 end
 
 function InitGoldStat(player)
