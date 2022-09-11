@@ -32,4 +32,8 @@ function InventorySlot:RemovePet()
     self.button.PetLevel.Text = ''
 end
 
+function InventorySlot:GetButton(): TextButton
+    return self.button :: TextButton
+end
+
 return InventorySlot

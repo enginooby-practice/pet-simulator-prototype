@@ -18,11 +18,27 @@ function Inventory.new(slotAmount: number, equipmentSlotAmount: number)
     for i = 1, slotAmount, 1 do
         local slot = InventorySlot.new(false)
         table.insert(_.slots, slot)
+
+        slot:GetButton().MouseButton1Click:Connect(function()
+            _:Equip(i)
+        end)
+
+        slot:GetButton().MouseButton2Click:Connect(function()
+            slot:RemovePet()
+        end)
     end
 
     for i = 1, equipmentSlotAmount, 1 do
         local slot = InventorySlot.new(true)
         table.insert(_.equipmentSlots, slot)
+
+        slot:GetButton().MouseButton1Click:Connect(function()
+            _:Unequip(i)
+        end)
+
+        slot:GetButton().MouseButton2Click:Connect(function()
+            slot:RemovePet()
+        end)
     end
 
     return _
@@ -72,6 +88,21 @@ function Inventory:Equip(slotIndex: number)
             return
         end
     end
+end
+
+function Inventory:Unequip(equipmentSlotIndex: number)
+    if equipmentSlotIndex > table.getn(self.equipmentSlots) or equipmentSlotIndex < 1 then
+        return
+    end
+
+    local pet = self.equipmentSlots[equipmentSlotIndex].pet :: Pet
+
+    if not pet then
+        return
+    end
+
+    self:AddPet(pet)
+    self.equipmentSlots[equipmentSlotIndex]:RemovePet()
 end
 
 function GetActivePets()
