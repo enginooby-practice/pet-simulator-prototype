@@ -1,0 +1,5 @@
+# https://github.com/JohnnyMorganz/StyLua#options
+quote_style = "ForceSingle"
+indent_type = "Spaces"
+indent_width = 4
+
