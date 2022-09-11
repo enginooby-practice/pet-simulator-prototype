@@ -11,6 +11,12 @@
         "$path": "src/ServerScriptService/Server"
       }
     },
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "CommonModules": {
+        "$path": "src/ReplicatedStorage/CommonModules"
+      }
+    },
     "ServerStorage": {
       "$className": "ServerStorage",
       "ServerModules": {

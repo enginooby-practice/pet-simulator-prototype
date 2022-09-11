@@ -1,4 +1,4 @@
-local PetModule = require(game.ServerStorage.ServerModules.PetModule)
+local Pet = require(game.ReplicatedStorage.CommonModules.Pet)
 
 local function OnPlayerAdded(player: Player)
     InitGoldStat(player)
@@ -8,8 +8,10 @@ local function OnPlayerAdded(player: Player)
         task.wait()
     until player.Character
 
-    PetModule.EquipPet(player, 'Fox')
-    PetModule.EquipPet(player, 'Bat')
+    local fox = Pet.new('Fox', 'Foxy')
+    local bat = Pet.new('Bat', 'Battie')
+    fox:AttachTo(player)
+    bat:AttachTo(player)
 end
 
 function InitGoldStat(player)
