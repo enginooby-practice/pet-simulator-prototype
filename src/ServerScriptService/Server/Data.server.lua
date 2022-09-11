@@ -1,12 +1,12 @@
-local Players = game:GetService("Players")
-local ServerStorage = game:GetService("ServerStorage")
-local PetModule = require(ServerStorage.ServerModules.PetModule)
+local PetModule = require(game.ServerStorage.ServerModules.PetModule)
 
-local function OnPlayerAdded(player)
+local function OnPlayerAdded(player: Player)
     InitGoldStat(player)
 
-    task.wait(5)
+    -- TIP: Wait until player is completely spawned
+    repeat task.wait() until player.Character
     PetModule.EquipPet(player, "Fox")
+    PetModule.EquipPet(player, "Bat")
 end
 
 function InitGoldStat(player)
@@ -18,4 +18,4 @@ function InitGoldStat(player)
     gold.Value = 0
 end
 
-Players.PlayerAdded:Connect(OnPlayerAdded)
+game.Players.PlayerAdded:Connect(OnPlayerAdded)
