@@ -1,11 +1,12 @@
 local Pet = require(game.ReplicatedStorage.CommonModules.Pet)
 local LocalPlayerManager = require(game.StarterPlayer.StarterPlayerScripts.ClientModules.LocalPlayerManager)
-
-local speed = 0.5
 local spinWheel = workspace:FindFirstChild('Spin Wheel')
 local wheel = spinWheel:FindFirstChild('Wheel') :: Part
 local wheelButton = spinWheel:FindFirstChild('Head', true)
 local pop = wheelButton.Parent.Parent.pop
+
+local SPEED = 0.5
+local COST = 100
 
 repeat
     task.wait()
@@ -23,8 +24,14 @@ local pets = {
 }
 
 function onClicked()
+    if LocalPlayerManager:GetGold() < COST then
+        print('<<< Not enough gold.')
+        return
+    end
+
     if pop.TopParamB == 0 then
-        pop.TopParamB = speed
+        print('<<< Spinning')
+        pop.TopParamB = SPEED
 
         task.wait(math.random(3, 5))
         pop.TopParamB = 0
@@ -32,6 +39,7 @@ function onClicked()
         local index = math.ceil(wheel.Rotation.X / 360 * #pets) + #pets / 2
         local pet = Pet.new(pets[index], pets[index] .. math.random(1, 999))
         LocalPlayerManager.inventory:AddPet(pet)
+        LocalPlayerManager:AddGold(-COST)
     end
 end
 

@@ -1,18 +1,23 @@
 local module = {}
 
+local localPlayer = game.Players.LocalPlayer
 local Inventory = require(game.StarterPlayer.StarterPlayerScripts.ClientModules.Inventory)
 local Pet = require(game.ReplicatedStorage.CommonModules.Pet)
 
 task.wait(5)
 print('>>> Initilized inventory')
 local inventory = Inventory.new(10, 2)
-local fox = Pet.new('Fox', 'Foxy')
-local fox2 = Pet.new('Fox', 'Foxy2')
-local bat = Pet.new('Bat', 'Battie')
-inventory:AddPet(fox)
-inventory:AddPet(fox2)
-inventory:AddPet(bat)
+inventory:AddPet(Pet.new('Fox', 'Foxy'))
+inventory:AddPet(Pet.new('Bat', 'Battie'))
 
 module.inventory = inventory
+
+function module:GetGold(): number
+    return localPlayer.leaderstats.Gold.Value
+end
+
+function module:AddGold(amount: number)
+    localPlayer.leaderstats.Gold.Value += amount
+end
 
 return module
