@@ -37,7 +37,7 @@ function onClicked()
         pop.TopParamB = 0
 
         local index = math.ceil(wheel.Rotation.X / 360 * #pets) + #pets / 2
-        local pet = Pet.new(pets[index], pets[index] .. math.random(1, 999))
+        local pet = Pet.new(pets[index], pets[index] .. math.random(1, 999), LocalPlayerManager.player)
         LocalPlayerManager.inventory:AddPet(pet)
         LocalPlayerManager:AddGold(-COST)
     end

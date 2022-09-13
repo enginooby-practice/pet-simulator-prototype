@@ -1,17 +1,13 @@
-local Pet = require(game.ReplicatedStorage.CommonModules.Pet)
-
 local function OnPlayerAdded(player: Player)
     InitGoldStat(player)
+
+    local petFolder = Instance.new('Folder', workspace.Pets)
+    petFolder.Name = player.Name
 
     -- TIP: Wait until player is completely spawned
     repeat
         task.wait()
     until player.Character
-
-    local fox = Pet.new('Fox', 'Foxy')
-    local bat = Pet.new('Bat', 'Battie')
-    -- fox:AttachTo(player)
-    -- bat:AttachTo(player)
 end
 
 function InitGoldStat(player)
@@ -20,7 +16,7 @@ function InitGoldStat(player)
 
     local gold = Instance.new('IntValue', leaderstats)
     gold.Name = 'Gold'
-    gold.Value = 0
+    gold.Value = 100
 end
 
 game.Players.PlayerAdded:Connect(OnPlayerAdded)

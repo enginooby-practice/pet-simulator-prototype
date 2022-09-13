@@ -7,10 +7,12 @@ local Pet = require(game.ReplicatedStorage.CommonModules.Pet)
 task.wait(5)
 print('>>> Initilized inventory')
 local inventory = Inventory.new(10, 2)
-inventory:AddPet(Pet.new('Fox', 'Foxy'))
-inventory:AddPet(Pet.new('Bat', 'Battie'))
+inventory:AddPet(Pet.new('Fox', 'Foxy', localPlayer))
+inventory:AddPet(Pet.new('Bat', 'Battie', localPlayer))
 
 module.inventory = inventory
+module.equippedPets = {}
+module.player = localPlayer
 
 function module:GetGold(): number
     return localPlayer.leaderstats.Gold.Value
