@@ -2,8 +2,8 @@ Pet = {}
 Pet.__index = Pet
 
 function Pet.new(prefabName: string, name: string, player: Player)
-    local _ = {}
-    setmetatable(_, Pet)
+    local self = {}
+    setmetatable(self, Pet)
 
     if not player then
         return
@@ -11,20 +11,20 @@ function Pet.new(prefabName: string, name: string, player: Player)
 
     local petPrefab: Instance = game.ReplicatedStorage.Pets:FindFirstChild(prefabName)
 
-    _.model = petPrefab:Clone() :: Model
-    _.model.Name = name
-    _.prefabName = prefabName
-    _.name = name
-    _.level = 1
-    _.exp = 0
-    _.attachmentPosition = _.model:FindFirstChild('AttachmentPosition').Value
-    _.player = player
-    _.icon = (_.model:WaitForChild('Icon') :: ImageLabel).Image
+    self.model = petPrefab:Clone() :: Model
+    self.model.Name = name
+    self.prefabName = prefabName
+    self.name = name
+    self.level = 1
+    self.exp = 0
+    self.attachmentPosition = self.model:FindFirstChild('AttachmentPosition').Value
+    self.player = player
+    self.icon = (self.model:WaitForChild('Icon') :: ImageLabel).Image
 
-    SetupAttachment(_.model)
-    _:Unequip()
+    SetupAttachment(self.model)
+    self:Unequip()
 
-    return _
+    return self
 end
 
 function Pet:Equip()
@@ -49,6 +49,10 @@ function Pet:Unequip()
     self.model.Parent = workspace.Pets:FindFirstChild(self.player.Name).Unequipped
     local homePosition = Vector3.new(math.random(-70, -50), 33, math.random(-120, -100))
     self:SetPosition(homePosition)
+end
+
+function Pet:Destroy()
+    self.model:Destroy()
 end
 
 -- to teleport
@@ -83,6 +87,12 @@ function SetupAttachment(model: Model)
     alignOrientation.Responsiveness = 5
 end
 
-function Pet:AddExp(amount: number) end
+function Pet:AddExp(amount: number)
+    local rawExp = self.exp + amount
+
+    if self.level == 1 and rawExp <= 0 then
+        return
+    end
+end
 
 return Pet

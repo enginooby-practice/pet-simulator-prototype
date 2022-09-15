@@ -1,5 +1,6 @@
-local lighting = game:GetService('Lighting')
 local TIME_SCALE = 1
+
+local lighting = game:GetService('Lighting')
 
 while true do
     local currentMinutesAfterMidnight = lighting:GetMinutesAfterMidnight() + 1 * TIME_SCALE

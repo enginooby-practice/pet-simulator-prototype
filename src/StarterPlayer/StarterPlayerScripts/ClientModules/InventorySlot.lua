@@ -5,23 +5,24 @@ InventorySlot = {}
 InventorySlot.__index = InventorySlot
 
 function InventorySlot.new(isEquipmentSlot: boolean)
-    local _ = {}
-    setmetatable(_, InventorySlot)
+    local self = {}
+    setmetatable(self, InventorySlot)
 
     local inventory: Frame = localPlayer:WaitForChild('PlayerGui'):WaitForChild('Main'):WaitForChild('Inventory')
     local slotPrefab: Instance = inventory:WaitForChild('Frame'):WaitForChild('ScrollingFrame'):WaitForChild('Slot')
     local equipmentSlotPrefab: Instance =
         inventory:WaitForChild('Frame'):WaitForChild('EquipmentSlots'):WaitForChild('Slot')
 
-    _.button = if isEquipmentSlot then equipmentSlotPrefab:Clone() else slotPrefab:Clone() :: TextButton
-    _.button.Parent = if isEquipmentSlot then equipmentSlotPrefab.Parent else slotPrefab.Parent
-    _.button.Visible = true
-    _.button:WaitForChild('Icon').Image = ''
-    _:RemovePet()
+    self.pet = nil
+    self.button = if isEquipmentSlot then equipmentSlotPrefab:Clone() else slotPrefab:Clone() :: TextButton
+    self.button.Parent = if isEquipmentSlot then equipmentSlotPrefab.Parent else slotPrefab.Parent
+    self.button.Visible = true
+    self:RemovePet()
 
-    return _
+    return self
 end
 
+-- ? How to use custom type in Luau
 function InventorySlot:AddPet(pet: Pet)
     self.pet = pet :: Pet
     self.button.PetName.Text = pet.name
@@ -30,10 +31,10 @@ function InventorySlot:AddPet(pet: Pet)
 end
 
 function InventorySlot:RemovePet()
-    self.pet = nil
     self.button.PetName.Text = ''
     self.button.PetLevel.Text = ''
     self.button:WaitForChild('Icon').Image = ''
+    self.pet = nil
 end
 
 function InventorySlot:GetButton(): TextButton

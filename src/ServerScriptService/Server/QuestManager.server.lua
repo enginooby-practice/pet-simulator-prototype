@@ -1,7 +1,7 @@
-local Quest = require(game.ReplicatedStorage.CommonModules.Quest)
-
 local SPAWN_AMOUNT = 3
 local SPAWN_FREQUENCY = 3 * 60
+
+local Quest = require(game.ReplicatedStorage.CommonModules.Quest)
 
 -- UTIL
 -- ! Must define local function before use

@@ -4,8 +4,8 @@ Inventory.__index = Inventory
 Inventory.frame = nil :: Frame
 
 function Inventory.new(slotAmount: number, equipmentSlotAmount: number)
-    local _ = {}
-    setmetatable(_, Inventory)
+    local self = {}
+    setmetatable(self, Inventory)
 
     local localPlayer = game.Players.LocalPlayer
     if not localPlayer then
@@ -14,17 +14,17 @@ function Inventory.new(slotAmount: number, equipmentSlotAmount: number)
     local inventoryFrame = localPlayer:WaitForChild('PlayerGui'):WaitForChild('Main'):WaitForChild('Inventory')
     local InventorySlot = require(game.StarterPlayer.StarterPlayerScripts.ClientModules.InventorySlot)
 
-    _.frame = inventoryFrame
-    _.slots = {}
-    _.equipmentSlots = {}
-    _.player = localPlayer
+    self.frame = inventoryFrame
+    self.slots = {}
+    self.equipmentSlots = {}
+    self.player = localPlayer
 
     for i = 1, slotAmount, 1 do
         local slot = InventorySlot.new(false)
-        table.insert(_.slots, slot)
+        table.insert(self.slots, slot)
 
         slot:GetButton().MouseButton1Click:Connect(function()
-            _:Equip(i)
+            self:Equip(i)
         end)
 
         slot:GetButton().MouseButton2Click:Connect(function()
@@ -34,10 +34,10 @@ function Inventory.new(slotAmount: number, equipmentSlotAmount: number)
 
     for i = 1, equipmentSlotAmount, 1 do
         local slot = InventorySlot.new(true)
-        table.insert(_.equipmentSlots, slot)
+        table.insert(self.equipmentSlots, slot)
 
         slot:GetButton().MouseButton1Click:Connect(function()
-            _:Unequip(i)
+            self:Unequip(i)
         end)
 
         slot:GetButton().MouseButton2Click:Connect(function()
@@ -45,7 +45,7 @@ function Inventory.new(slotAmount: number, equipmentSlotAmount: number)
         end)
     end
 
-    return _
+    return self
 end
 
 function Inventory:Open()
@@ -112,10 +112,6 @@ function Inventory:Unequip(equipmentSlotIndex: number)
     pet:Unequip()
     local LocalPlayerManager = require(game.StarterPlayer.StarterPlayerScripts.ClientModules.LocalPlayerManager)
     table.remove(LocalPlayerManager.equippedPets, equipmentSlotIndex)
-end
-
-function GetActivePets()
-    return (workspace.Pets :: Folder):GetChildren()
 end
 
 return Inventory

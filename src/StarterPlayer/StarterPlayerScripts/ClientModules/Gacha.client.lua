@@ -1,3 +1,6 @@
+local SPEED = 0.5
+local COST = 100
+
 local Pet = require(game.ReplicatedStorage.CommonModules.Pet)
 local LocalPlayerManager = require(game.StarterPlayer.StarterPlayerScripts.ClientModules.LocalPlayerManager)
 local spinWheel = workspace:FindFirstChild('Spin Wheel')
@@ -6,9 +9,6 @@ local wheelButton = spinWheel:FindFirstChild('Head', true)
 local pop = wheelButton.Parent.Parent.pop
 local gachaUI: Frame = game.Players.LocalPlayer:WaitForChild('PlayerGui'):WaitForChild('Main'):WaitForChild('Gacha')
 local rewardedPetIcon: ImageLabel = gachaUI:WaitForChild('RewardedPetIcon')
-
-local SPEED = 0.5
-local COST = 100
 
 repeat
     task.wait()
