@@ -1,6 +1,8 @@
 local UserInputService = game:GetService('UserInputService')
 local LocalPlayerManager = require(game.StarterPlayer.StarterPlayerScripts.ClientModules.LocalPlayerManager)
 local inventory = LocalPlayerManager.inventory
+local inventoryButton: TextButton =
+    LocalPlayerManager.player:WaitForChild('PlayerGui'):WaitForChild('Main'):WaitForChild('InventoryButton')
 
 local function onInputEnded(inputObject: InputObject, gameProcessedEvent)
     if gameProcessedEvent then
@@ -23,3 +25,7 @@ local function onInputEnded(inputObject: InputObject, gameProcessedEvent)
 end
 
 UserInputService.InputEnded:Connect(onInputEnded)
+
+inventoryButton.MouseButton1Click:Connect(function()
+    inventory:Toggle()
+end)
