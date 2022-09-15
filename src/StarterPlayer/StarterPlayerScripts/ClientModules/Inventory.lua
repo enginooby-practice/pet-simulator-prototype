@@ -1,16 +1,20 @@
-local localPlayer = game.Players.LocalPlayer
-local inventory: Frame = localPlayer:WaitForChild('PlayerGui'):WaitForChild('Main'):WaitForChild('Inventory')
-local InventorySlot = require(game.StarterPlayer.StarterPlayerScripts.ClientModules.InventorySlot)
-local Pet = require(game.ReplicatedStorage.CommonModules.Pet)
-
 Inventory = {}
 Inventory.__index = Inventory
+
+Inventory.frame = nil :: Frame
 
 function Inventory.new(slotAmount: number, equipmentSlotAmount: number)
     local _ = {}
     setmetatable(_, Inventory)
 
-    _.frame = inventory
+    local localPlayer = game.Players.LocalPlayer
+    if not localPlayer then
+        return
+    end
+    local inventoryFrame = localPlayer:WaitForChild('PlayerGui'):WaitForChild('Main'):WaitForChild('Inventory')
+    local InventorySlot = require(game.StarterPlayer.StarterPlayerScripts.ClientModules.InventorySlot)
+
+    _.frame = inventoryFrame
     _.slots = {}
     _.equipmentSlots = {}
     _.player = localPlayer
@@ -45,23 +49,23 @@ function Inventory.new(slotAmount: number, equipmentSlotAmount: number)
 end
 
 function Inventory:Open()
-    inventory.Visible = true
+    self.frame.Visible = true
 end
 
 function Inventory:Close()
-    inventory.Visible = false
+    self.frame.Visible = false
 end
 
 function Inventory:Toggle()
-    inventory.Visible = not inventory.Visible
+    self.frame.Visible = not self.frame.Visible
 end
 
 function Inventory:IsOpen(): boolean
-    return inventory.Visible
+    return self.frame.Visible
 end
 
-function Inventory:AddPet(pet: Pet)
-    for _, slot: InventorySlot in ipairs(self.slots) do
+function Inventory:AddPet(pet)
+    for _, slot in ipairs(self.slots) do
         if slot.pet == nil then
             slot:AddPet(pet)
             return
@@ -74,7 +78,7 @@ function Inventory:Equip(slotIndex: number)
         return
     end
 
-    local pet = self.slots[slotIndex].pet :: Pet
+    local pet = self.slots[slotIndex].pet
 
     if not pet then
         return
@@ -85,6 +89,8 @@ function Inventory:Equip(slotIndex: number)
             equipmentSlot:AddPet(pet)
             pet:Equip(self.player)
             self.slots[slotIndex]:RemovePet()
+            local LocalPlayerManager = require(game.StarterPlayer.StarterPlayerScripts.ClientModules.LocalPlayerManager)
+            table.insert(LocalPlayerManager.equippedPets, pet)
             return
         end
     end
@@ -95,7 +101,7 @@ function Inventory:Unequip(equipmentSlotIndex: number)
         return
     end
 
-    local pet = self.equipmentSlots[equipmentSlotIndex].pet :: Pet
+    local pet = self.equipmentSlots[equipmentSlotIndex].pet
 
     if not pet then
         return
@@ -104,6 +110,8 @@ function Inventory:Unequip(equipmentSlotIndex: number)
     self:AddPet(pet)
     self.equipmentSlots[equipmentSlotIndex]:RemovePet()
     pet:Unequip()
+    local LocalPlayerManager = require(game.StarterPlayer.StarterPlayerScripts.ClientModules.LocalPlayerManager)
+    table.remove(LocalPlayerManager.equippedPets, equipmentSlotIndex)
 end
 
 function GetActivePets()

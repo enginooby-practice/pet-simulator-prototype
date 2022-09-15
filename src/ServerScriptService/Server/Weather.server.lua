@@ -3,14 +3,14 @@ local weatherTypes = game.ServerStorage:WaitForChild('WeatherTypes'):GetChildren
 table.insert(weatherTypes, 'normal')
 
 while task.wait(math.random(10, 100)) do
-    local currentWeather = weatherTypes[math.random(#weatherTypes)]
+    local currentWeatherPrefab = weatherTypes[math.random(#weatherTypes)]
 
-    if currentWeather ~= 'normal' then
-        local chosenWeatherClone = currentWeather:Clone()
-        chosenWeatherClone.Parent = workspace
+    if currentWeatherPrefab ~= 'normal' then
+        local currentWeather = currentWeatherPrefab:Clone()
+        currentWeather.Parent = workspace
 
         task.wait(math.random(10, 60))
 
-        chosenWeatherClone:Destroy()
+        currentWeather:Destroy()
     end
 end

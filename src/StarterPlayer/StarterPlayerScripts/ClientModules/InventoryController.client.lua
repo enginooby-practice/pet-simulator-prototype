@@ -1,6 +1,5 @@
 local UserInputService = game:GetService('UserInputService')
 local LocalPlayerManager = require(game.StarterPlayer.StarterPlayerScripts.ClientModules.LocalPlayerManager)
-
 local inventory = LocalPlayerManager.inventory
 
 local function onInputEnded(inputObject: InputObject, gameProcessedEvent)

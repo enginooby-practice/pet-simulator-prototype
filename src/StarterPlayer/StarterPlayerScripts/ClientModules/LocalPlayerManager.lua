@@ -1,14 +1,16 @@
 local module = {}
 
 local localPlayer = game.Players.LocalPlayer
-local Inventory = require(game.StarterPlayer.StarterPlayerScripts.ClientModules.Inventory)
-local Pet = require(game.ReplicatedStorage.CommonModules.Pet)
+Inventory = Inventory or require(game.StarterPlayer.StarterPlayerScripts.ClientModules.Inventory)
+Pet = Pet or require(game.ReplicatedStorage.CommonModules.Pet)
 
 task.wait(5)
 print('>>> Initilized inventory')
 local inventory = Inventory.new(10, 2)
 inventory:AddPet(Pet.new('Fox', 'Foxy', localPlayer))
 inventory:AddPet(Pet.new('Bat', 'Battie', localPlayer))
+inventory:AddPet(Pet.new('Dog', 'Dog', localPlayer))
+inventory:AddPet(Pet.new('Cow', 'Cow', localPlayer))
 
 module.inventory = inventory
 module.equippedPets = {}
