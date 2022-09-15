@@ -1,4 +1,5 @@
 local questPrefab = game.ReplicatedStorage:WaitForChild('Quest')
+local openQuestPopupEvent: RemoteEvent = game.ReplicatedStorage.Remotes:WaitForChild('OpenQuestPopupEvent')
 
 Quest = {}
 Quest.__index = Quest
@@ -45,6 +46,7 @@ end
 function Quest:Show()
     print('>>> Quest: ' .. self.title)
     print('>>> Content: ' .. self.description)
+    openQuestPopupEvent:FireClient(self.player, self)
 end
 
 function Quest:Hide() end
