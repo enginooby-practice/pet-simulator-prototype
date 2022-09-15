@@ -1,5 +1,6 @@
-local Pet = require(game.ReplicatedStorage.CommonModules.Pet)
 local localPlayer = game.Players.LocalPlayer
+local Pet = require(game.ReplicatedStorage.CommonModules.Pet)
+type Pet = typeof(Pet.new())
 
 InventorySlot = {}
 InventorySlot.__index = InventorySlot
@@ -22,7 +23,6 @@ function InventorySlot.new(isEquipmentSlot: boolean)
     return self
 end
 
--- ? How to use custom type in Luau
 function InventorySlot:AddPet(pet: Pet)
     self.pet = pet :: Pet
     self.button.PetName.Text = pet.name

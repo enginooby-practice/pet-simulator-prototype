@@ -1,5 +1,7 @@
 local questPrefab = game.ReplicatedStorage:WaitForChild('Quest')
 local openQuestPopupEvent: RemoteEvent = game.ReplicatedStorage.Remotes:WaitForChild('OpenQuestPopupEvent')
+local Pet = require(game.ReplicatedStorage.CommonModules.Pet)
+type Pet = typeof(Pet.new())
 
 Quest = {}
 Quest.__index = Quest
@@ -38,14 +40,12 @@ function Quest.new(
     return self
 end
 
-function Quest:SetTaker(player: Player, pet)
+function Quest:SetTaker(player: Player, pet: Pet)
     self.player = player
     self.pet = pet
 end
 
 function Quest:Show()
-    print('>>> Quest: ' .. self.title)
-    print('>>> Content: ' .. self.description)
     openQuestPopupEvent:FireClient(self.player, self)
 end
 

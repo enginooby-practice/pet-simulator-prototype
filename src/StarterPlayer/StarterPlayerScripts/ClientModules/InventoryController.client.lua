@@ -4,7 +4,7 @@ local inventory = LocalPlayerManager.inventory
 local inventoryButton: TextButton =
     LocalPlayerManager.player:WaitForChild('PlayerGui'):WaitForChild('Main'):WaitForChild('InventoryButton')
 
-local function onInputEnded(inputObject: InputObject, gameProcessedEvent)
+local function onInputEnded(inputObject: InputObject, gameProcessedEvent: boolean)
     if gameProcessedEvent then
         return
     end
