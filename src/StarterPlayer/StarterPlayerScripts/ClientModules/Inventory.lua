@@ -12,20 +12,6 @@ function Inventory.new(slotAmount: number)
     self.frame = nil :: Frame
     self.slots = {}
 
-    for i = 1, slotAmount, 1 do
-        local slot = InventorySlot.new(false)
-        table.insert(self.slots, slot)
-
-        slot:GetButton().MouseButton1Click:Connect(function()
-            self:Equip(i)
-        end)
-
-        slot:GetButton().MouseButton2Click:Connect(function()
-            -- TODO: Implement destroy pet model
-            -- slot:RemovePet()
-        end)
-    end
-
     return self
 end
 

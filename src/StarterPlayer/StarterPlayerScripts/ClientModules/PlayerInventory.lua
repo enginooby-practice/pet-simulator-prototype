@@ -1,5 +1,7 @@
 local Inventory = require(game.StarterPlayer.StarterPlayerScripts.ClientModules.Inventory)
 local InventorySlot = require(game.StarterPlayer.StarterPlayerScripts.ClientModules.InventorySlot)
+local localPlayer = game.Players.LocalPlayer
+local inventoryFrame = localPlayer:WaitForChild('PlayerGui'):WaitForChild('Main'):WaitForChild('Inventory')
 type Pet = typeof(require(game.ReplicatedStorage.CommonModules.Pet).new())
 
 PlayerInventory = {}
@@ -11,15 +13,23 @@ function PlayerInventory.new(slotAmount: number, equipmentSlotAmount: number)
     local self = Inventory.new(slotAmount)
     setmetatable(self, PlayerInventory)
 
-    local localPlayer = game.Players.LocalPlayer
-    if not localPlayer then
-        return
-    end
-    local inventoryFrame = localPlayer:WaitForChild('PlayerGui'):WaitForChild('Main'):WaitForChild('Inventory')
-
     self.frame = inventoryFrame
     self.equipmentSlots = {}
     self.player = localPlayer
+
+    for i = 1, slotAmount, 1 do
+        local slot = InventorySlot.new(false)
+        table.insert(self.slots, slot)
+
+        slot:GetButton().MouseButton1Click:Connect(function()
+            self:Equip(i)
+        end)
+
+        slot:GetButton().MouseButton2Click:Connect(function()
+            -- TODO: Implement destroy pet model
+            -- slot:RemovePet()
+        end)
+    end
 
     for i = 1, equipmentSlotAmount, 1 do
         local slot = InventorySlot.new(true)

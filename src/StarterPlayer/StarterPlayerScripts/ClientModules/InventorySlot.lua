@@ -5,7 +5,7 @@ type Pet = typeof(Pet.new())
 InventorySlot = {}
 InventorySlot.__index = InventorySlot
 
-function InventorySlot.new(isEquipmentSlot: boolean)
+function InventorySlot.new(isEquipmentSlot: boolean, parent: Instance)
     local self = {}
     setmetatable(self, InventorySlot)
 
@@ -16,7 +16,10 @@ function InventorySlot.new(isEquipmentSlot: boolean)
 
     self.pet = nil
     self.button = if isEquipmentSlot then equipmentSlotPrefab:Clone() else slotPrefab:Clone() :: TextButton
-    self.button.Parent = if isEquipmentSlot then equipmentSlotPrefab.Parent else slotPrefab.Parent
+    self.button.Parent = parent
+    if not parent then
+        self.button.Parent = if isEquipmentSlot then equipmentSlotPrefab.Parent else slotPrefab.Parent
+    end
     self.button.Visible = true
     self:RemovePet()
 
@@ -24,7 +27,7 @@ function InventorySlot.new(isEquipmentSlot: boolean)
 end
 
 function InventorySlot:AddPet(pet: Pet)
-    self.pet = pet :: Pet
+    self.pet = pet
     self.button.PetName.Text = pet.name
     self.button.PetLevel.Text = 'Lv.' .. pet.level
     self.button:WaitForChild('Icon').Image = pet.icon
