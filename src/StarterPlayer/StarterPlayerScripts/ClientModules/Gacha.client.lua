@@ -4,6 +4,8 @@ local spinWheel = workspace:FindFirstChild('Spin Wheel')
 local wheel = spinWheel:FindFirstChild('Wheel') :: Part
 local wheelButton = spinWheel:FindFirstChild('Head', true)
 local pop = wheelButton.Parent.Parent.pop
+local gachaUI: Frame = game.Players.LocalPlayer:WaitForChild('PlayerGui'):WaitForChild('Main'):WaitForChild('Gacha')
+local rewardedPetIcon: ImageLabel = gachaUI:WaitForChild('RewardedPetIcon')
 
 local SPEED = 0.5
 local COST = 100
@@ -19,8 +21,8 @@ local pets = {
     [2] = 'Fox',
     [3] = 'Bat',
     [4] = 'Fox',
-    [5] = 'Bat',
-    [6] = 'Fox',
+    [5] = 'Dog',
+    [6] = 'Cow',
 }
 
 function onClicked()
@@ -29,17 +31,23 @@ function onClicked()
         return
     end
 
+    -- FIX: Sometimes not spinning
     if pop.TopParamB == 0 then
-        print('<<< Spinning')
+        print('>>> Spinning')
         pop.TopParamB = SPEED
 
-        task.wait(math.random(3, 5))
+        task.wait(math.random(2.3, 4.2))
         pop.TopParamB = 0
 
         local index = math.ceil(wheel.Rotation.X / 360 * #pets) + #pets / 2
-        local pet = Pet.new(pets[index], pets[index] .. math.random(1, 999), LocalPlayerManager.player)
+        local pet = Pet.new(pets[index], pets[index] .. math.random(1, 99), LocalPlayerManager.player)
         LocalPlayerManager.inventory:AddPet(pet)
         LocalPlayerManager:AddGold(-COST)
+
+        gachaUI.Visible = true
+        rewardedPetIcon.Image = pet.icon
+        task.wait(1.5)
+        gachaUI.Visible = false
     end
 end
 
