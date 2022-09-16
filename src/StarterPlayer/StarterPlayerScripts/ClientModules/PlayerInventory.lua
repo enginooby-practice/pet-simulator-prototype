@@ -44,6 +44,8 @@ function PlayerInventory.new(slotAmount: number, equipmentSlotAmount: number)
         end)
     end
 
+    self:SetupCloseButton()
+
     return self
 end
 

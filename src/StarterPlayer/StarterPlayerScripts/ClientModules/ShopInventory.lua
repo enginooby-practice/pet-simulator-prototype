@@ -30,6 +30,8 @@ function ShopInventory.new(slotAmount: number)
         end)
     end
 
+    self:SetupCloseButton()
+
     return self
 end
 

@@ -40,4 +40,11 @@ function Inventory:AddPet(pet: Pet)
     end
 end
 
+function Inventory:SetupCloseButton()
+    local closeButton: ImageButton = self.frame:WaitForChild('Frame'):WaitForChild('CloseButton')
+    closeButton.MouseButton1Click:Connect(function()
+        self:Close()
+    end)
+end
+
 return Inventory
