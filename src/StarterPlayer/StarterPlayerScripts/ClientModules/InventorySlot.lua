@@ -19,6 +19,7 @@ function InventorySlot.new(isEquipmentSlot: boolean, parent: Instance)
     self.button.Parent = parent
     if not parent then
         self.button.Parent = if isEquipmentSlot then equipmentSlotPrefab.Parent else slotPrefab.Parent
+        self.isPlayerInventory = true
     end
     self.button.Visible = true
     self:RemovePet()
@@ -29,8 +30,13 @@ end
 function InventorySlot:AddPet(pet: Pet)
     self.pet = pet
     self.button.PetName.Text = pet.name
-    self.button.PetLevel.Text = 'Lv.' .. pet.level
     self.button:WaitForChild('Icon').Image = pet.icon
+
+    if self.isPlayerInventory then
+        self.button.PetLevel.Text = 'Lv.' .. pet.level
+    else
+        self.button.PetLevel.Text = pet.price .. 'G'
+    end
 end
 
 function InventorySlot:RemovePet()
@@ -38,6 +44,23 @@ function InventorySlot:RemovePet()
     self.button.PetLevel.Text = ''
     self.button:WaitForChild('Icon').Image = ''
     self.pet = nil
+end
+
+-- TODO: Subclass ShopInventorySlot & PlayerInventorySlot
+-- for shop inventory only
+function InventorySlot:Sell()
+    if self.isPlayerInventory then
+        return
+    end
+
+    local pet = self.pet :: Pet
+    local LocalPlayerManager = require(game.StarterPlayer.StarterPlayerScripts.ClientModules.LocalPlayerManager)
+    if LocalPlayerManager:GetGold() >= pet.price then
+        LocalPlayerManager:AddGold(-pet.price)
+        LocalPlayerManager.inventory:AddPet(pet)
+        pet:SetPlayer(LocalPlayerManager.player)
+        self:RemovePet()
+    end
 end
 
 function InventorySlot:GetButton(): TextButton

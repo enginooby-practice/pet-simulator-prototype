@@ -21,12 +21,7 @@ function ShopInventory.new(slotAmount: number)
         table.insert(self.slots, slot)
 
         slot:GetButton().MouseButton1Click:Connect(function()
-            self:Equip(i)
-        end)
-
-        slot:GetButton().MouseButton2Click:Connect(function()
-            -- TODO: Implement destroy pet model
-            -- slot:RemovePet()
+            self.slots[i]:Sell()
         end)
     end
 

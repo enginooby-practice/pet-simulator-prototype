@@ -5,10 +5,6 @@ function Pet.new(prefabName: string, name: string, player: Player)
     local self = {}
     setmetatable(self, Pet)
 
-    if not player then
-        return
-    end
-
     local petPrefab: Instance = game.ReplicatedStorage.Pets:FindFirstChild(prefabName)
 
     self.model = petPrefab:Clone() :: Model
@@ -18,13 +14,22 @@ function Pet.new(prefabName: string, name: string, player: Player)
     self.level = 1
     self.exp = 0
     self.attachmentPosition = self.model:FindFirstChild('AttachmentPosition').Value
-    self.player = player
+    self.price = self.model:FindFirstChild('Price').Value
     self.icon = (self.model:WaitForChild('Icon') :: ImageLabel).Image
 
     SetupAttachment(self.model)
-    self:Unequip()
+    self:SetPlayer(player)
 
     return self
+end
+
+function Pet:SetPlayer(player: Player)
+    if not player then
+        return
+    end
+
+    self.player = player
+    self:Unequip()
 end
 
 function Pet:Equip()
