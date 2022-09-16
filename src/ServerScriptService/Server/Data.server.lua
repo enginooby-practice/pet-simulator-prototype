@@ -1,3 +1,5 @@
+local GOLD_INIT = 200
+
 local function OnPlayerAdded(player: Player)
     InitGoldStat(player)
     CreatePetFolders(player)
@@ -22,7 +24,7 @@ function InitGoldStat(player: Player)
 
     local gold = Instance.new('IntValue', leaderstats)
     gold.Name = 'Gold'
-    gold.Value = 100
+    gold.Value = GOLD_INIT
 end
 
 game.Players.PlayerAdded:Connect(OnPlayerAdded)

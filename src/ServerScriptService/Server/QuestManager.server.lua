@@ -15,7 +15,15 @@ end
 
 local function SpawnQuest()
     local randomPosition = Vector3.new(math.random(-15, 112), 30, math.random(-27, 85)) -- REFACTOR
-    local quest = Quest.new(randomPosition, 'Quest ' .. math.random(1, 1000), 'Feed a pet 3 times', 60, 30, 10, 20)
+    local quest = Quest.new(
+        randomPosition,
+        '#' .. math.random(1, 1000),
+        'Feed a pet 3 times',
+        60,
+        math.random(20, 40),
+        10,
+        math.random(20, 40)
+    )
 end
 
 while true do
